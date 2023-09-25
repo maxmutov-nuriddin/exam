@@ -11,10 +11,10 @@ const Footer = () => {
           <li className="footer__address-item"><Link className='footer__address-link'>Hello@finsweet.com  020 7993 2905</Link></li>
         </ul>
         <ul className="footer__social">
-          <li className="footer__social-item"><Link className='footer__social-link'><img src="../../../public/svg/facebook.svg" alt="facebook" /></Link></li>
-          <li className="footer__social-item"><Link className='footer__social-link'><img src="../../../public/svg/twiter.svg" alt="twitter" /></Link></li>
-          <li className="footer__social-item"><Link className='footer__social-link'><img src="../../../public/svg/instagram.svg" alt="instagram" /></Link></li>
-          <li className="footer__social-item"><Link className='footer__social-link'><img src="../../../public/svg/in.svg" alt="in" /></Link></li>
+          <li className="footer__social-item"><Link className='footer__social-link'><img src="./svg/facebook.svg" alt="facebook" /></Link></li>
+          <li className="footer__social-item"><Link className='footer__social-link'><img src="./svg/twiter.svg" alt="twitter" /></Link></li>
+          <li className="footer__social-item"><Link className='footer__social-link'><img src="./svg/instagram.svg" alt="instagram" /></Link></li>
+          <li className="footer__social-item"><Link className='footer__social-link'><img src="./svg/in.svg" alt="in" /></Link></li>
         </ul>
       </div>
     </footer>
