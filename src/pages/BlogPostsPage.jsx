@@ -3,7 +3,7 @@ import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom"
 import request from "../server/Server";
 
-import imgs from '../assets/blog.png'
+import imgs from './assets/blog.png'
 const BlogPostsPage = () => {
   const { postId } = useParams()
   const [data, setData] = useState([]);

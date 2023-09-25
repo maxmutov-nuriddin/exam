@@ -23,7 +23,7 @@ const Header = () => {
         <nav className="header__nav">
           {
             isAuthenticated ? (<NavLink to='/my-posts' className="header__link">My Posts</NavLink>) : (<NavLink to='/' className="header__logo">
-              <img src="../../../public/svg/Logo.svg" alt="logo" />
+              <img src="./svg/Logo.svg" alt="logo" />
             </NavLink>)
           }
           <ul className={`header__menu ${burger ? 'open' : 'close'}`}>
