@@ -1,0 +1,33 @@
+.footer {
+  padding: 30px 20px;
+  background: var(--Black, #232536);
+}
+
+.footer__inner {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.footer__address-link {
+  color: var(--Light, #FFF);
+  font-family: Inter;
+  font-size: 16px;
+  font-style: normal;
+  font-weight: 400;
+  line-height: 28px;
+}
+
+.footer__address-link:hover {
+  color: #FFD050;
+}
+
+.footer__social {
+  display: flex;
+  justify-content: space-between;
+  gap: 20px;
+}
+
+.footer__social-link:hover {
+  opacity: 0.65;
+}
