@@ -6,7 +6,7 @@ const Card = ({ data }) => {
     <div className="container">
       <div className="card">
         <div className="card__image">
-          <img className="card__image-photo" src="../../../public/png/hero.png" alt="img" />
+          <img className="card__image-photo" src="./png/hero.png" alt="img" />
         </div>
         <div className="card__content">
           <p className="card__category">{data.category.name}</p>
