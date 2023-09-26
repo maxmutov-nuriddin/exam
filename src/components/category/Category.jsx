@@ -5,7 +5,7 @@ import { Link } from "react-router-dom";
 import { Swiper, SwiperSlide } from 'swiper/react';
 
 
-import img from '../assets/Icon.svg'
+import img from '../../assets/Icon.svg'
 const Category = ({ category }) => {
   const [slidesPerView, setSlidesPerView] = useState(3);
 
