@@ -17,7 +17,7 @@ const CategoryPage = () => {
 
   const fetchData = async (search) => {
     try {
-      const response = await request.get(`/post?search=${search}`);
+      const response = await request.get(`/post?search=${search}&category=${categoryId}`);
       setData(response.data.data);
       setIsLoading(false);
     } catch (error) {
@@ -34,8 +34,7 @@ const CategoryPage = () => {
     return <p>Loading...</p>;
   }
 
-  const filteredData = data.filter((el) => el.category.name === categoryId);
-  const categoryName = filteredData.length > 0 ? filteredData[0].category.name : '';
+  const categoryName = data.length > 0 ? data[0].category.name : '';
 
   return (
     <section>
@@ -43,10 +42,10 @@ const CategoryPage = () => {
       <div className="container">
         <input className="search__input" onChange={handleInput} type="text" placeholder="Searching ..." />
       </div>
-      {filteredData.length === 0 ? (
+      {data.length === 0 ? (
         <h2 style={{ textAlign: 'center' }}>Not Found Card</h2>
       ) : (
-        filteredData.map((el, index) => <Card key={index} data={el} />)
+        data.map((el, index) => <Card key={index} data={el} />)
       )}
     </section>
   )

@@ -5,7 +5,7 @@ import { Link } from "react-router-dom";
 import { Swiper, SwiperSlide } from 'swiper/react';
 
 
-import img from '../../assets/Icon.svg'
+import img from '../assets/Icon.svg'
 const Category = ({ category }) => {
   const [slidesPerView, setSlidesPerView] = useState(3);
 
@@ -28,6 +28,8 @@ const Category = ({ category }) => {
     };
   }, []);
 
+  console.log(category);
+
 
   return (
     <section className="category">
@@ -40,7 +42,7 @@ const Category = ({ category }) => {
         >
           {category.data.map((element, index) => (
             <SwiperSlide key={index}>
-              <Link to={`/category/${element.name}`}>
+              <Link to={`/category/${element._id}`}>
                 <div className="category__item popular__item">
                   <div className="category__image popular__image">
                     <img className="category__image-photo popular__image-photo" src={img} alt="img" />
