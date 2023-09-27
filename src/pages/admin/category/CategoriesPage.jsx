@@ -7,6 +7,7 @@ import '../../../App.css';
 
 const CategoriesPage = () => {
   const [data, setData] = useState([]);
+  const [search, setSearch] = useState('');
   const [photo, setPhoto] = useState(null);
   const [showForm, setShowForm] = useState(false);
   const [selected, setSelected] = useState(null);
@@ -20,14 +21,19 @@ const CategoriesPage = () => {
 
 
   useEffect(() => {
-    getData();
-  }, [currentPage]);
+    getData( search);
+  }, [currentPage, search]);
 
-  async function getData() {
+  const handleInput = (e) => {
+    setSearch(e.target.value);
+    setCurrentPage(1);
+  };
+
+  async function getData(search) {
     try {
       let {
         data
-      } = await request.get(`category?page=${currentPage}&limit=${pageTotal}`);
+      } = await request.get(`category?search=${search}&page=${currentPage}&limit=${pageTotal}`);
       setItemsPerPage(data.pagination.total)
       setData(data.data);
       setIsLoading(false);
@@ -41,7 +47,6 @@ const CategoriesPage = () => {
     try {
       let form = new FormData();
       form.append("file", e.target.files[0]);
-
       let { data } = await request.post("upload", form);
       setPhoto(data);
     } catch (err) {
@@ -63,7 +68,7 @@ const CategoriesPage = () => {
     const confirmDelete = window.confirm("Are you sure you want to delete?");
     if (confirmDelete) {
       await request.delete(`category/${id}`);
-      getData();
+      getData(currentPage, search);
     }
   };
 
@@ -146,6 +151,7 @@ const CategoriesPage = () => {
   return (
     <section className="category">
       <div className="container">
+        <input className="search__input" onChange={handleInput} type="text" placeholder="Searching ..." />
         <div className="category__header">
           <h2 className="category__title">Category ({itemsPerPage})</h2>
           <button className="category__button category__button--add" onClick={handleAddClick}>

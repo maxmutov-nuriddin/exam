@@ -31,7 +31,7 @@ const MyPostsPage = () => {
     setCurrentPage(1);
   };
 
-  const fetchData = async (page, search) => {
+  const fetchData = async ( search) => {
     setIsLoading(true);
     try {
       const response = await request.get(`post/user?search=${search}&page=${currentPage}&limit=${pageTotal}`);

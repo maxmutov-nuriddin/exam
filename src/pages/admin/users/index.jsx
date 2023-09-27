@@ -7,6 +7,7 @@ const UsersPage = () => {
   const [showForm, setShowForm] = useState(false);
   const [selected, setSelected] = useState(null);
   const [name, setName] = useState('');
+  const [search, setSearch] = useState('');
   const [description, setDescription] = useState('');
   const [username, setUsername] = useState('');
   const [nameError, setNameError] = useState('');
@@ -18,12 +19,12 @@ const UsersPage = () => {
   const pageTotal = 10
 
   useEffect(() => {
-    getData();
-  }, [currentPage]);
+    getData(search, currentPage);
+  }, [search, currentPage]);
 
   const getData = async () => {
     try {
-      const response = await request.get(`user?page=${currentPage}&limit=${pageTotal}`);
+      const response = await request.get(`user?page=${currentPage}&limit=${pageTotal}&search=${search}`);
       setItemsPerPage(response.data.pagination.total)
       const { data } = response.data;
       setData(data);
@@ -32,6 +33,11 @@ const UsersPage = () => {
       console.log(err);
       setIsLoading(false);
     }
+  };
+
+  const handleInput = (e) => {
+    setSearch(e.target.value);
+    setCurrentPage(1);
   };
 
   const edit = async (id) => {
@@ -54,7 +60,7 @@ const UsersPage = () => {
       try {
         await request.delete(`user/${id}`);
         setIsLoading(false);
-        getData();
+        getData(search, currentPage);
       } catch (err) {
         console.log(err);
         setIsLoading(false);
@@ -137,6 +143,7 @@ const UsersPage = () => {
   return (
     <section className="category">
       <div className="container">
+        <input className="search__input" onChange={handleInput} type="text" placeholder="Searching ..." />
         <div className="category__header">
           <h2 className="category__title">User ({itemsPerPage})</h2>
           <button className="category__button category__button--add" onClick={handleAddClick}>
