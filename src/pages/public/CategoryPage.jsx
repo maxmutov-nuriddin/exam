@@ -9,6 +9,11 @@ const CategoryPage = () => {
   const [data, setData] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
   const [search, setSearch] = useState('');
+  const [currentPage, setCurrentPage] = useState(1);
+  const [itemsPerPage, setItemsPerPage] = useState()
+  const pageTotal = 10
+
+
 
   const handleInput = (e) => {
     setSearch(e.target.value);
@@ -17,8 +22,9 @@ const CategoryPage = () => {
 
   const fetchData = async (search) => {
     try {
-      const response = await request.get(`/post?search=${search}&category=${categoryId}`);
+      const response = await request.get(`/post?search=${search}&category=${categoryId}&page=${currentPage}&limit=${pageTotal}`);
       setData(response.data.data);
+      setItemsPerPage(data.pagination.total)
       setIsLoading(false);
     } catch (error) {
       console.log(error);
@@ -34,6 +40,10 @@ const CategoryPage = () => {
     return <p>Loading...</p>;
   }
 
+  const totalPages = Math.ceil(itemsPerPage / pageTotal);
+
+
+
   const categoryName = data.length > 0 ? data[0].category.name : '';
 
   return (
@@ -47,6 +57,27 @@ const CategoryPage = () => {
       ) : (
         data.map((el, index) => <Card key={index} data={el} />)
       )}
+      {
+        pageTotal > itemsPerPage ? null : (
+          <div className="category__pagination">
+            <button
+              className="category__pagination-button"
+              disabled={currentPage === 1}
+              onClick={() => setCurrentPage(currentPage - 1)}
+            >
+              Previous
+            </button>
+            <span className="category__pagination-current">{currentPage}</span>
+            <button
+              className="category__pagination-button"
+              disabled={currentPage === totalPages}
+              onClick={() => setCurrentPage(currentPage + 1)}
+            >
+              Next
+            </button>
+          </div>
+        )
+      }
     </section>
   )
 }
