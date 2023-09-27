@@ -1,12 +1,19 @@
 import { useContext, useState } from "react"
-import { NavLink } from "react-router-dom"
+import { NavLink, useNavigate } from "react-router-dom"
 import { AuthContext } from "../../context/AuthContext";
+import { TOKEN } from "../../constants";
+import Cookies from "js-cookie";
 
 import './Header.css'
 
 const Header = () => {
-  const { isAuthenticated, role } = useContext(AuthContext);
-
+  const { isAuthenticated, setIsAuthenticated, role } = useContext(AuthContext);
+  const navigate = useNavigate();
+  const logout = () => {
+    setIsAuthenticated(false);
+    Cookies.remove(TOKEN);
+    navigate("/");
+  };
 
   const [burger, setBurger] = useState(false)
   const open = () => {
@@ -46,6 +53,9 @@ const Header = () => {
             <li className="header__menu-item">
               <NavLink to='/register' className="header__menu-link">Register</NavLink>
             </li>
+            {
+              isAuthenticated ? (<button className="header__menu-link" onClick={logout}>Logout</button>) : null
+            }
             <li className="header__menu-item">
               <ul className="header__sub-menu">
                 <li className="header__sub-menu-item">
