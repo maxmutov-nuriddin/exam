@@ -16,7 +16,7 @@ const AllPostsPage = () => {
     fetchData(currentPage, e.target.value);
   };
 
-  const fetchData = async (page, search) => {
+  const fetchData = async (search) => {
     try {
       const response = await request.get(`/post?search=${search}&page=${currentPage}&limit=${pageTotal}`);
       setData(response.data.data);
