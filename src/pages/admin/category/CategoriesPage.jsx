@@ -14,18 +14,22 @@ const CategoriesPage = () => {
   const [description, setDescription] = useState('');
   const [errors, setErrors] = useState({});
   const [isLoading, setIsLoading] = useState(true);
+  const [currentPage, setCurrentPage] = useState(1);
+  const [itemsPerPage, setItemsPerPage] = useState()
+  const pageTotal = 10
 
 
   useEffect(() => {
     getData();
-  }, []);
+  }, [currentPage]);
 
   async function getData() {
     try {
       let {
-        data: { data },
-      } = await request.get("category");
-      setData(data);
+        data
+      } = await request.get(`category?page=${currentPage}&limit=${pageTotal}`);
+      setItemsPerPage(data.pagination.total)
+      setData(data.data);
       setIsLoading(false);
     } catch (err) {
       console.log(err);
@@ -136,11 +140,14 @@ const CategoriesPage = () => {
     return <p>Loading...</p>;
   }
 
+
+  const totalPages = Math.ceil(itemsPerPage / pageTotal);
+
   return (
     <section className="category">
       <div className="container">
         <div className="category__header">
-          <h2 className="category__title">Category ({data.length})</h2>
+          <h2 className="category__title">Category ({itemsPerPage})</h2>
           <button className="category__button category__button--add" onClick={handleAddClick}>
             Add
           </button>
@@ -246,6 +253,27 @@ const CategoriesPage = () => {
           </form>
         </div>
       )}
+      {
+        pageTotal > itemsPerPage ? null : (
+          <div className="category__pagination">
+            <button
+              className="category__pagination-button"
+              disabled={currentPage === 1}
+              onClick={() => setCurrentPage(currentPage - 1)}
+            >
+              Previous
+            </button>
+            <span className="category__pagination-current">{currentPage}</span>
+            <button
+              className="category__pagination-button"
+              disabled={currentPage === totalPages}
+              onClick={() => setCurrentPage(currentPage + 1)}
+            >
+              Next
+            </button>
+          </div>
+        )
+      }
     </section>
   );
 };

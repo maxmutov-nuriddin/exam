@@ -760,3 +760,10 @@ button {
   left: 50%;
   right: 50%;
 }
+
+/*! =============pagination============== */
+
+.category__pagination {
+  text-align: center;
+  margin-top: 20px;
+}

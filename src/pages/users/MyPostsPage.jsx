@@ -8,7 +8,6 @@ const MyPostsPage = () => {
   const [data, setData] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
   const [search, setSearch] = useState('');
-  const [currentPage, setCurrentPage] = useState(1);
   const [selected, setSelected] = useState(null);
   const [showForm, setShowForm] = useState(false);
   const [name, setName] = useState("");
@@ -18,6 +17,9 @@ const MyPostsPage = () => {
   const [errors, setErrors] = useState({});
   const [my, setMy] = useState(true);
   const [showModal, setShowModal] = useState(false);
+  const [currentPage, setCurrentPage] = useState(1);
+  const [itemsPerPage, setItemsPerPage] = useState()
+  const pageTotal = 10
 
   const close = () => {
     setShowForm(false);
@@ -32,8 +34,9 @@ const MyPostsPage = () => {
   const fetchData = async (page, search) => {
     setIsLoading(true);
     try {
-      const response = await request.get(`post/user?search=${search}&page=${page}`);
+      const response = await request.get(`post/user?search=${search}&page=${currentPage}&limit=${pageTotal}`);
       setData(response.data.data);
+      setItemsPerPage(data.pagination.total)
       setIsLoading(false);
     } catch (error) {
       console.log(error);
@@ -44,10 +47,6 @@ const MyPostsPage = () => {
   useEffect(() => {
     fetchData(currentPage, search);
   }, [search, currentPage]);
-
-  const handlePageChange = (pageNumber) => {
-    setCurrentPage(pageNumber);
-  };
 
   const validateForm = () => {
     let formErrors = {};
@@ -163,12 +162,10 @@ const MyPostsPage = () => {
     }
   }, [isLoading]);
 
-  const itemsPerPage = 4;
-  const startIndex = (currentPage - 1) * itemsPerPage;
-  const endIndex = startIndex + itemsPerPage;
-  const currentPageData = data.slice(startIndex, endIndex);
 
-  const totalPages = Math.ceil(data.length / itemsPerPage);
+
+  const totalPages = Math.ceil(itemsPerPage / pageTotal);
+
 
   return (
     <section>
@@ -190,21 +187,7 @@ const MyPostsPage = () => {
       {data.length === 0 ? (
         <h2 style={{ textAlign: 'center' }}>Not Found Card</h2>
       ) : (
-        currentPageData.map((el, index) => <Card key={index} data={el} my={my} edit={edit} deleteCategory={deleteCategory} />)
-      )}
-
-      {totalPages > 1 && (
-        <div className="pagination">
-          {Array.from({ length: totalPages }, (_, index) => (
-            <button
-              key={index + 1}
-              className={`pagination__button ${currentPage === index + 1 ? 'active' : ''}`}
-              onClick={() => handlePageChange(index + 1)}
-            >
-              {index + 1}
-            </button>
-          ))}
-        </div>
+        data.map((el, index) => <Card key={index} data={el} my={my} edit={edit} deleteCategory={deleteCategory} />)
       )}
 
       {showForm && (
@@ -275,6 +258,27 @@ const MyPostsPage = () => {
           </form>
         </div>
       )}
+      {
+        pageTotal > itemsPerPage ? null : (
+          <div className="category__pagination">
+            <button
+              className="category__pagination-button"
+              disabled={currentPage === 1}
+              onClick={() => setCurrentPage(currentPage - 1)}
+            >
+              Previous
+            </button>
+            <span className="category__pagination-current">{currentPage}</span>
+            <button
+              className="category__pagination-button"
+              disabled={currentPage === totalPages}
+              onClick={() => setCurrentPage(currentPage + 1)}
+            >
+              Next
+            </button>
+          </div>
+        )
+      }
     </section>
   );
 };

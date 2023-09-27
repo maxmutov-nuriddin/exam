@@ -13,14 +13,18 @@ const UsersPage = () => {
   const [descriptionError, setDescriptionError] = useState('');
   const [usernameError, setUsernameError] = useState('');
   const [isLoading, setIsLoading] = useState(true);
+  const [currentPage, setCurrentPage] = useState(1);
+  const [itemsPerPage, setItemsPerPage] = useState()
+  const pageTotal = 10
 
   useEffect(() => {
     getData();
-  }, []);
+  }, [currentPage]);
 
   const getData = async () => {
     try {
-      const response = await request.get('user');
+      const response = await request.get(`user?page=${currentPage}&limit=${pageTotal}`);
+      setItemsPerPage(response.data.pagination.total)
       const { data } = response.data;
       setData(data);
       setIsLoading(false);
@@ -128,12 +132,13 @@ const UsersPage = () => {
     return <p>Loading...</p>;
   }
 
+  const totalPages = Math.ceil(itemsPerPage / pageTotal);
 
   return (
     <section className="category">
       <div className="container">
         <div className="category__header">
-          <h2 className="category__title">User ({data.length})</h2>
+          <h2 className="category__title">User ({itemsPerPage})</h2>
           <button className="category__button category__button--add" onClick={handleAddClick}>
             Add
           </button>
@@ -221,6 +226,23 @@ const UsersPage = () => {
           </form>
         </div>
       )}
+      <div className="category__pagination">
+        <button
+          className="category__pagination-button"
+          disabled={currentPage === 1}
+          onClick={() => setCurrentPage(currentPage - 1)}
+        >
+          Previous
+        </button>
+        <span className="category__pagination-current">{currentPage}</span>
+        <button
+          className="category__pagination-button"
+          disabled={currentPage === totalPages}
+          onClick={() => setCurrentPage(currentPage + 1)}
+        >
+          Next
+        </button>
+      </div>
     </section>
   );
 };

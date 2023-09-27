@@ -8,6 +8,8 @@ const AllPostsPage = () => {
   const [isLoading, setIsLoading] = useState(true);
   const [search, setSearch] = useState('');
   const [currentPage, setCurrentPage] = useState(1);
+  const [itemsPerPage, setItemsPerPage] = useState()
+  const pageTotal = 10
 
   const handleInput = (e) => {
     setSearch(e.target.value);
@@ -16,8 +18,9 @@ const AllPostsPage = () => {
 
   const fetchData = async (page, search) => {
     try {
-      const response = await request.get(`/post?search=${search}&page=${page}`);
+      const response = await request.get(`/post?search=${search}&page=${currentPage}&limit=${pageTotal}`);
       setData(response.data.data);
+      setItemsPerPage(data.pagination.total)
       setIsLoading(false);
     } catch (error) {
       console.log(error);
@@ -30,22 +33,13 @@ const AllPostsPage = () => {
     fetchData(currentPage, search);
   }, [search, currentPage]);
 
-  const handlePageChange = (pageNumber) => {
-    setCurrentPage(pageNumber);
-  };
-
-  const itemsPerPage = 4;
-  const startIndex = (currentPage - 1) * itemsPerPage;
-  const endIndex = startIndex + itemsPerPage;
-  const currentPageData = data.slice(startIndex, endIndex);
-
-
 
   if (isLoading) {
     return <p>Loading...</p>;
   }
 
-  const totalPages = Math.ceil(data.length / itemsPerPage);
+  const totalPages = Math.ceil(itemsPerPage / pageTotal);
+
 
   return (
     <section>
@@ -57,22 +51,29 @@ const AllPostsPage = () => {
       {data.length === 0 ? (
         <h2 style={{ textAlign: 'center' }}>Not Found Card</h2>
       ) : (
-        currentPageData.map((el, index) => <Card key={index} data={el} />)
+        data.map((el, index) => <Card key={index} data={el} />)
       )}
-
-      {totalPages > 1 && (
-        <div className="pagination">
-          {Array.from({ length: totalPages }, (_, index) => (
+      {
+        pageTotal > itemsPerPage ? null : (
+          <div className="category__pagination">
             <button
-              key={index}
-              className={`pagination__button ${currentPage === index + 1 ? 'active' : ''}`}
-              onClick={() => handlePageChange(index + 1)}
+              className="category__pagination-button"
+              disabled={currentPage === 1}
+              onClick={() => setCurrentPage(currentPage - 1)}
             >
-              {index + 1}
+              Previous
             </button>
-          ))}
-        </div>
-      )}
+            <span className="category__pagination-current">{currentPage}</span>
+            <button
+              className="category__pagination-button"
+              disabled={currentPage === totalPages}
+              onClick={() => setCurrentPage(currentPage + 1)}
+            >
+              Next
+            </button>
+          </div>
+        )
+      }
     </section>
   );
 };
