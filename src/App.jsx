@@ -45,9 +45,8 @@ function App() {
           <Route path="login" element={<LoginPage />} />
           <Route path="my-posts" element={isAuthenticated ? <MyPostsPage /> : <Navigate to='/login' />} />
           <Route path="account" element={isAuthenticated ? <AccountPage /> : <Navigate to='/login' />} />
-          <Route path="*" element={<NoutFound />} />
         </Route>
-
+          <Route path="*" element={<NoutFound />} />
         {isAuthenticated && role === "admin" ? (
           <Route path="/" element={<AdminLayout />}>
             <Route path="dashboard" element={<DashboardPage />} />
