@@ -1,8 +1,8 @@
 import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
-import request from "../server/Server";
-import Card from "../components/card/Card";
-import NameTop from "../components/heroname/NameTop";
+import request from "../../server/Server";
+import Card from "../../components/card/Card";
+import NameTop from "../../components/heroname/NameTop";
 
 const CategoryPage = () => {
   const { categoryId } = useParams()

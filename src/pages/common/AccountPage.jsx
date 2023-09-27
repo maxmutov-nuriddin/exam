@@ -2,8 +2,8 @@ import { useContext } from "react";
 import { useNavigate } from "react-router-dom";
 import Cookies from "js-cookie";
 
-import { AuthContext } from "../context/AuthContext";
-import { TOKEN } from "../constants";
+import { AuthContext } from "../../context/AuthContext";
+import { TOKEN } from "../../constants";
 
 
 const AccountPage = () => {

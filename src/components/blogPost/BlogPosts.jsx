@@ -52,9 +52,9 @@ const BlogPosts = ({ info }) => {
                     {element.createdAt.split('T')[0]}
                   </p>
                   <Link to={`post/${element._id}`}>
-                    <h3 className='popular__title'>{element.category.description}</h3>
+                    <h3 className='popular__title'>{element.description}</h3>
                   </Link>
-                  <p className='popular__description'>{element.description}</p>
+                  <p className='popular__description'>{element.category.description}</p>
                 </div>
               </div>
             </SwiperSlide>

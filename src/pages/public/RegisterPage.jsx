@@ -1,5 +1,6 @@
 import { useState } from 'react';
-import request from '../server/Server';
+
+import request from '../../server/Server';
 
 const RegisterPage = () => {
   const [formData, setFormData] = useState({

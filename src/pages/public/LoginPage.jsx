@@ -1,13 +1,15 @@
 import { useContext, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import Cookies from 'js-cookie';
-import { AuthContext } from "../context/AuthContext";
-import { TOKEN } from "../constants";
-import request from "../server/Server";
+import { AuthContext } from "../../context/AuthContext";
+import { TOKEN, ROLE } from "../../constants";
+
+import request from "../../server/Server";
+
 import { toast } from "react-toastify";
 
 const LoginPage = () => {
-  const { setIsAuthenticated } = useContext(AuthContext);
+  const { setIsAuthenticated, setRole } = useContext(AuthContext);
   const navigate = useNavigate();
 
   const [formData, setFormData] = useState({
@@ -42,10 +44,17 @@ const LoginPage = () => {
   const login = async () => {
     if (validateForm()) {
       try {
-        let { data: { token } } = await request.post('/auth/login', formData);
-        Cookies.set(TOKEN, token)
+        let { data: { token, role } } = await request.post('/auth/login', formData);
+        if (role === "user") {
+          navigate("/my-posts");
+        } else if (role === "admin") {
+          navigate("/dashboard");
+        }
         setIsAuthenticated(true);
-        navigate("/my-posts");
+        setRole(role);
+        Cookies.set(TOKEN, token)
+        Cookies.set(ROLE, role);
+        setIsAuthenticated(true);
         setFormData({
           username: '',
           password: '',

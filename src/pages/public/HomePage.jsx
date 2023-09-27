@@ -1,8 +1,8 @@
 import { useEffect, useState } from "react";
-import request from "../server/Server";
-import Hero from "../components/hero/Hero";
-import BlogPosts from "../components/blogPost/BlogPosts";
-import Category from "../components/category/Category";
+import request from "../../server/Server";
+import Hero from "../../components/hero/Hero";
+import BlogPosts from "../../components/blogPost/BlogPosts";
+import Category from "../../components/category/Category";
 
 import 'swiper/css';
 

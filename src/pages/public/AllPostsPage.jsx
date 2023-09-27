@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
-import request from "../server/Server";
+import request from "../../server/Server";
 
-import Card from "../components/card/Card";
+import Card from "../../components/card/Card";
 
 const AllPostsPage = () => {
   const [data, setData] = useState([]);

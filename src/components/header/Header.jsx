@@ -5,7 +5,7 @@ import { AuthContext } from "../../context/AuthContext";
 import './Header.css'
 
 const Header = () => {
-  const { isAuthenticated } = useContext(AuthContext);
+  const { isAuthenticated, role } = useContext(AuthContext);
 
 
   const [burger, setBurger] = useState(false)
@@ -27,6 +27,13 @@ const Header = () => {
             </NavLink>)
           }
           <ul className={`header__menu ${burger ? 'open' : 'close'}`}>
+            {
+              isAuthenticated && role === "admin" ? (
+                <li className="header__menu-item">
+                  <NavLink to='/dashboard' className="header__menu-link">Admin</NavLink>
+                </li>
+              ) : null
+            }
             <li className="header__menu-item">
               <NavLink to='/' className="header__menu-link">Home</NavLink>
             </li>

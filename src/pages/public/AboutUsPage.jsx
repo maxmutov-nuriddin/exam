@@ -1,6 +1,6 @@
 
-import arm from '../assets/about.png'
-import person from '../assets/aboutt3persons.png'
+import arm from '../../assets/about.png'
+import person from '../../assets/aboutt3persons.png'
 
 const AboutUsPage = () => {
   return (

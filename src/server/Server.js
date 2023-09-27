@@ -1,8 +1,13 @@
 import axios from 'axios'
+import { ENDPOINT, TOKEN } from '../constants'
+import Cookies from 'js-cookie'
 
 const request = axios.create({
-  baseURL: 'https://blog-backend-production-a0a8.up.railway.app/api/v1',
-  timeout: 10000
+  baseURL: `${ENDPOINT}api/v1`,
+  timeout: 10000,
+  headers: {
+    Authorization: `Bearer ${Cookies.get(TOKEN)}`,
+  },
 })
 
 export default request
