@@ -665,7 +665,8 @@ th,
 
 .category__form-wrapper {
   position: absolute;
-  top: 10%;
+  position: fixed;
+  top: 0%;
   bottom: 0;
   right: 0;
   left: 0;
@@ -751,4 +752,11 @@ th,
 button {
   background-color: transparent;
   border: none;
+}
+
+.modal {
+  position: absolute;
+  top: 10%;
+  left: 50%;
+  right: 50%;
 }

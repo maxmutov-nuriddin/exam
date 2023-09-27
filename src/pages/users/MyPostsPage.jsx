@@ -17,6 +17,7 @@ const MyPostsPage = () => {
   const [photo, setPhoto] = useState(null);
   const [errors, setErrors] = useState({});
   const [my, setMy] = useState(true);
+  const [showModal, setShowModal] = useState(false);
 
   const close = () => {
     setShowForm(false);
@@ -152,9 +153,15 @@ const MyPostsPage = () => {
     }
   };
 
-  if (isLoading) {
-    return <p>Loading...</p>;
-  }
+  useEffect(() => {
+    if (isLoading) {
+      setShowModal(true);
+    } else {
+      setTimeout(() => {
+        setShowModal(false);
+      }, 500);
+    }
+  }, [isLoading]);
 
   const itemsPerPage = 4;
   const startIndex = (currentPage - 1) * itemsPerPage;
@@ -165,6 +172,13 @@ const MyPostsPage = () => {
 
   return (
     <section>
+      {showModal && (
+        <div className="modal">
+          <div className="modal-content">
+            <p>Loading...</p>
+          </div>
+        </div>
+      )}
       <div className="container">
         <input className="search__input" onChange={handleInput} type="text" placeholder="Searching ..." />
         <div className="my__post-inner">
