@@ -12,6 +12,7 @@ const UsersPage = () => {
   const [nameError, setNameError] = useState('');
   const [descriptionError, setDescriptionError] = useState('');
   const [usernameError, setUsernameError] = useState('');
+  const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
     getData();
@@ -22,8 +23,10 @@ const UsersPage = () => {
       const response = await request.get('user');
       const { data } = response.data;
       setData(data);
+      setIsLoading(false);
     } catch (err) {
       console.log(err);
+      setIsLoading(false);
     }
   };
 
@@ -46,9 +49,11 @@ const UsersPage = () => {
     if (confirmDelete) {
       try {
         await request.delete(`user/${id}`);
+        setIsLoading(false);
         getData();
       } catch (err) {
         console.log(err);
+        setIsLoading(false);
       }
     }
   };
@@ -78,8 +83,10 @@ const UsersPage = () => {
 
         if (selected === null) {
           await request.post('user', formData);
+          setIsLoading(false);
         } else {
           await request.put(`user/${selected}`, formData);
+          setIsLoading(false);
         }
         getData();
         setShowForm(false);
@@ -95,24 +102,20 @@ const UsersPage = () => {
   const validateForm = () => {
     let isValid = true;
 
-    // Reset previous errors
     setNameError('');
     setDescriptionError('');
     setUsernameError('');
 
-    // Validate name field
     if (name.trim() === '') {
       setNameError('Name is required');
       isValid = false;
     }
 
-    // Validate description field
     if (description.trim() === '') {
       setDescriptionError('Description is required');
       isValid = false;
     }
 
-    // Validate username field
     if (username.trim() === '') {
       setUsernameError('Username is required');
       isValid = false;
@@ -120,6 +123,11 @@ const UsersPage = () => {
 
     return isValid;
   };
+
+  if (isLoading) {
+    return <p>Loading...</p>;
+  }
+
 
   return (
     <section className="category">

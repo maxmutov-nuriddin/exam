@@ -49,7 +49,7 @@ const Category = ({ category }) => {
                   </div>
                   <div className="category__details popular__details">
                     <h3 className="category__title title popular__title ">{element.name}</h3>
-                    <p className="category__description popular__description">{element.description}</p>
+                    <p className="category__descriptions popular__description">{element.description}</p>
                   </div>
                 </div>
               </Link>

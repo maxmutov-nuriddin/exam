@@ -13,6 +13,8 @@ const CategoriesPage = () => {
   const [name, setName] = useState('');
   const [description, setDescription] = useState('');
   const [errors, setErrors] = useState({});
+  const [isLoading, setIsLoading] = useState(true);
+
 
   useEffect(() => {
     getData();
@@ -24,8 +26,10 @@ const CategoriesPage = () => {
         data: { data },
       } = await request.get("category");
       setData(data);
+      setIsLoading(false);
     } catch (err) {
       console.log(err);
+      setIsLoading(false);
     }
   }
 
@@ -45,6 +49,7 @@ const CategoriesPage = () => {
     setShowForm(true);
     setSelected(id);
     let { data } = await request.get(`category/${id}`);
+    setIsLoading(false);
     setPhoto(data.photo);
     setName(data.name);
     setDescription(data.description);
@@ -109,8 +114,10 @@ const CategoriesPage = () => {
         console.log(categoryData);
         if (selected === null) {
           await request.post("category", categoryData);
+          setIsLoading(false);
         } else {
           await request.put(`category/${selected}`, categoryData);
+          setIsLoading(false);
         }
         getData();
         setShowForm(false);
@@ -124,6 +131,10 @@ const CategoriesPage = () => {
       console.log(err);
     }
   };
+
+  if (isLoading) {
+    return <p>Loading...</p>;
+  }
 
   return (
     <section className="category">

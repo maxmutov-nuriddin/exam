@@ -740,3 +740,15 @@ th,
   display: flex;
   justify-content: space-between;
 }
+
+/*! =============My post============== */
+
+.my__post-inner {
+  display: flex;
+  justify-content: space-between;
+}
+
+button {
+  background-color: transparent;
+  border: none;
+}
