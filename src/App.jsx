@@ -19,6 +19,7 @@ import AccountPage from "./pages/common/AccountPage"
 import DashboardPage from "./pages/admin/dashboard"
 import UsersPage from "./pages/admin/users"
 import CategoriesPage from "./pages/admin/category/CategoriesPage"
+import AdminLayout from "./components/layout/admin"
 
 import { AuthContext } from "./context/AuthContext";
 
@@ -48,7 +49,7 @@ function App() {
         </Route>
 
         {isAuthenticated && role === "admin" ? (
-          <Route path="/">
+          <Route path="/" element={<AdminLayout />}>
             <Route path="dashboard" element={<DashboardPage />} />
             <Route path="categories" element={<CategoriesPage />} />
             <Route path="users" element={<UsersPage />} />
