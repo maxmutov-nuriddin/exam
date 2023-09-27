@@ -48,13 +48,13 @@ const BlogPosts = ({ info }) => {
                 </div>
                 <div className='popular__details'>
                   <p className='popular__author'>
-                    By <span className='popular__author-span'>{element.user.first_name} {element.user.last_name}</span> |{' '}
+                    By <span className='popular__author-span'>{element.title}</span> |{' '}
                     {element.createdAt.split('T')[0]}
                   </p>
                   <Link to={`post/${element._id}`}>
                     <h3 className='popular__title'>{element.description}</h3>
                   </Link>
-                  <p className='popular__description'>{element.category.description}</p>
+                  <p className='popular__description'></p>
                 </div>
               </div>
             </SwiperSlide>

@@ -28,7 +28,7 @@ const Category = ({ category }) => {
     };
   }, []);
 
-  console.log(category);
+  // console.log(category);
 
 
   return (

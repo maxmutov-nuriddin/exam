@@ -35,6 +35,8 @@ const HomePage = () => {
     return <p>Loading...</p>;
   }
 
+  console.log(data);
+
   return (
     <>
       <Hero data={data} />

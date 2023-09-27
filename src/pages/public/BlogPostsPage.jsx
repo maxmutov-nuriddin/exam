@@ -47,9 +47,9 @@ const BlogPostsPage = () => {
                 <p className="blog__author-description">{data.createdAt.split('T')[0]}</p>
               </div>
             </div>
-            <h2 className="blog__title">{data.category.description}</h2>
+            <h2 className="blog__title">{data.description}</h2>
             <p className="blog__subtitle">
-              Startup <strong>(#{data.category.name})</strong>
+              Startup <strong>(#{data.name})</strong>
             </p>
             <p className="blog__paragraph">{data.description}</p>
             <p className="blog__paragraph">{data.description}</p>

@@ -579,3 +579,164 @@
   letter-spacing: 3px;
   text-transform: uppercase;
 }
+
+/*! =============Admin Category============== */
+
+.category__header {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 50px;
+}
+
+.category__table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+thead {
+  margin-bottom: 20px;
+}
+
+th {
+  padding: 20px;
+}
+
+tr,
+.category__table-header {
+  text-align: start;
+  border: 1px solid #232536;
+}
+
+tbody {
+  text-align: center;
+}
+
+.category__actions {
+  display: flex;
+  gap: 20px;
+}
+
+tr,
+th,
+.category__description,
+.category__name {
+  border: 1px solid #232536;
+}
+
+.category__table-wrapper {
+  overflow-x: auto;
+}
+
+.category__table-header {
+  background-color: #f2f2f2;
+  padding: 10px;
+  text-align: left;
+  font-weight: bold;
+}
+
+.category__row:nth-child(even) {
+  background-color: #f9f9f9;
+}
+
+.category__name,
+.category__description,
+.category__actions {
+  padding: 10px;
+}
+
+.category__button {
+  padding: 5px 10px;
+  border: none;
+  border-radius: 3px;
+  cursor: pointer;
+}
+
+.category__button--edit {
+  background-color: #3498db;
+  color: #fff;
+}
+
+.category__button--delete {
+  background-color: #e74c3c;
+  color: #fff;
+}
+
+/*! =============Admin Form============== */
+
+.category__form-wrapper {
+  position: absolute;
+  top: 10%;
+  bottom: 0;
+  right: 0;
+  left: 0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+}
+
+.category__form {
+  width: 400px;
+  padding: 20px;
+  background-color: #fff;
+  border-radius: 5px;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+}
+
+.category__form-title {
+  font-size: 20px;
+  margin-bottom: 20px;
+  text-align: center;
+}
+
+.category__form-group {
+  margin-bottom: 20px;
+}
+
+.category__form-label {
+  display: block;
+  margin-bottom: 5px;
+  font-weight: bold;
+}
+
+.category__form-input,
+.category__form-textarea {
+  width: 100%;
+  padding: 10px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+}
+
+.category__form-error {
+  color: red;
+  font-size: 14px;
+}
+
+.category__form-buttons {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.category__button {
+  padding: 10px 20px;
+  border: none;
+  border-radius: 5px;
+  font-size: 16px;
+  cursor: pointer;
+}
+
+.category__button--submit {
+  background-color: #4caf50;
+  color: #fff;
+}
+
+.category__button--cancel {
+  background-color: #ccc;
+  color: #000;
+}
+
+.box-btn {
+  display: flex;
+  justify-content: space-between;
+}
