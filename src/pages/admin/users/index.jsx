@@ -19,13 +19,13 @@ const UsersPage = () => {
   const pageTotal = 10
 
   useEffect(() => {
-    getData(search, currentPage);
+    getData();
   }, [search, currentPage]);
 
   const getData = async () => {
     try {
       const response = await request.get(`user?page=${currentPage}&limit=${pageTotal}&search=${search}`);
-      setItemsPerPage(response.data.pagination.total)
+      setItemsPerPage(response.data.pagination.total);
       const { data } = response.data;
       setData(data);
       setIsLoading(false);

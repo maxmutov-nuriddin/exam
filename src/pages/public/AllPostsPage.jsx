@@ -16,11 +16,11 @@ const AllPostsPage = () => {
     fetchData(currentPage, e.target.value);
   };
 
-  const fetchData = async (search) => {
+  const fetchData = async (search, page) => {
     try {
-      const response = await request.get(`/post?search=${search}&page=${currentPage}&limit=${pageTotal}`);
+      const response = await request.get(`/post?search=${search}&page=${page}&limit=${pageTotal}`);
       setData(response.data.data);
-      setItemsPerPage(data.pagination.total)
+      setItemsPerPage(response.data.pagination.total)
       setIsLoading(false);
     } catch (error) {
       console.log(error);
@@ -30,7 +30,7 @@ const AllPostsPage = () => {
 
 
   useEffect(() => {
-    fetchData(currentPage, search);
+    fetchData(search, currentPage);
   }, [search, currentPage]);
 
 
@@ -39,7 +39,6 @@ const AllPostsPage = () => {
   }
 
   const totalPages = Math.ceil(itemsPerPage / pageTotal);
-
 
   return (
     <section>
@@ -53,27 +52,25 @@ const AllPostsPage = () => {
       ) : (
         data.map((el, index) => <Card key={index} data={el} />)
       )}
-      {
-        pageTotal > itemsPerPage ? null : (
-          <div className="category__pagination">
-            <button
-              className="category__pagination-button"
-              disabled={currentPage === 1}
-              onClick={() => setCurrentPage(currentPage - 1)}
-            >
-              Previous
-            </button>
-            <span className="category__pagination-current">{currentPage}</span>
-            <button
-              className="category__pagination-button"
-              disabled={currentPage === totalPages}
-              onClick={() => setCurrentPage(currentPage + 1)}
-            >
-              Next
-            </button>
-          </div>
-        )
-      }
+      {totalPages > 0 && (
+        <div className="category__pagination">
+          <button
+            className="category__pagination-button"
+            disabled={currentPage === 1}
+            onClick={() => setCurrentPage(currentPage - 1)}
+          >
+            Previous
+          </button>
+          <span className="category__pagination-current">{currentPage}</span>
+          <button
+            className="category__pagination-button"
+            disabled={currentPage === totalPages}
+            onClick={() => setCurrentPage(currentPage + 1)}
+          >
+            Next
+          </button>
+        </div>
+      )}
     </section>
   );
 };
