@@ -209,6 +209,7 @@ const UsersPage = () => {
                 <th className="category__table-header">First name</th>
                 <th className="category__table-header">Last name</th>
                 <th className="category__table-header">User Name</th>
+                <th className="category__table-header">Role</th>
                 <th className="category__table-header">Action</th>
               </tr>
             </thead>
@@ -222,6 +223,14 @@ const UsersPage = () => {
                       <td className="category__name">{user.first_name}</td>
                       <td className="category__description">{user.last_name}</td>
                       <td className="category__description">{user.username}</td>
+                      <td className='category__description'>
+                        <button
+                          className="category__button category__button--edit"
+                          onClick={() => editUser(user._id)}
+                        >
+                          {user.role === 'admin' ? 'ADMIN' : 'User'}
+                        </button>
+                      </td>
                       <td className="category__actions">
                         <button
                           className="category__button category__button--edit"
@@ -235,12 +244,6 @@ const UsersPage = () => {
                         >
                           Delete
                         </button>
-                        <button
-                          className="category__button category__button--edit"
-                          onClick={() => editUser(user._id)}
-                        >
-                          {user.role === 'admin' ? 'ADMIN' : 'User'}
-                        </button>
                       </td>
                     </tr>
                   )))
@@ -253,6 +256,14 @@ const UsersPage = () => {
                     <td className="category__name">{user.first_name}</td>
                     <td className="category__description">{user.last_name}</td>
                     <td className="category__description">{user.username}</td>
+                    <td className='category__description'>
+                      <button
+                        className="category__button category__button--edit"
+                        onClick={() => editUser(user._id)}
+                      >
+                        {user.role === 'admin' ? 'ADMIN' : 'User'}
+                      </button>
+                    </td>
                     <td className="category__actions">
                       <button
                         className="category__button category__button--edit"
@@ -265,12 +276,6 @@ const UsersPage = () => {
                         onClick={() => deleteCategory(user._id)}
                       >
                         Delete
-                      </button>
-                      <button
-                        className="category__button category__button--edit"
-                        onClick={() => editUser(user._id)}
-                      >
-                        {user.role === 'admin' ? 'ADMIN' : 'User'}
                       </button>
                     </td>
                   </tr>
