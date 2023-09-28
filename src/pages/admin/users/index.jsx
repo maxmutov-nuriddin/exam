@@ -169,9 +169,12 @@ const UsersPage = () => {
   const totalPages = Math.ceil(itemsPerPage / pageTotal);
 
 
-  const total = data
+  console.log(data.length);
+
+  const total = test
     .filter((total) => {
-      const fullName = `${total.name} ${total.description}`;
+      console.log(total);
+      const fullName = `${total.first_name} ${total.last_name} ${total.username}`;
       return fullName.toLowerCase().includes(search.toLowerCase());
     })
 
@@ -196,50 +199,57 @@ const UsersPage = () => {
               </tr>
             </thead>
             <tbody>
-              {total.length === 0 ? (
-                <h2 style={{ textAlign: 'center' }}>Not Found Card</h2>
-              ) : (total.map((user) => (
-                <tr key={user._id} className="category__row">
-                  <td className="category__name">{user.first_name}</td>
-                  <td className="category__description">{user.last_name}</td>
-                  <td className="category__description">{user.username}</td>
-                  <td className="category__actions">
-                    <button
-                      className="category__button category__button--edit"
-                      onClick={() => edit(user._id)}
-                    >
-                      Edit
-                    </button>
-                    <button
-                      className="category__button category__button--delete"
-                      onClick={() => deleteCategory(user._id)}
-                    >
-                      Delete
-                    </button>
-                  </td>
-                </tr>
-              )))}
-              {/* {data.map((user) => (
-                      <tr key={user._id} className="category__row">
-                        <td className="category__name">{user.first_name}</td>
-                        <td className="category__description">{user.last_name}</td>
-                        <td className="category__description">{user.username}</td>
-                        <td className="category__actions">
-                          <button
-                            className="category__button category__button--edit"
-                            onClick={() => edit(user._id)}
-                          >
-                            Edit
-                          </button>
-                          <button
-                            className="category__button category__button--delete"
-                            onClick={() => deleteCategory(user._id)}
-                          >
-                            Delete
-                          </button>
-                        </td>
-                      </tr>
-                    ))} */}
+              {
+                search === '' ? (
+                  total.length === 0 ? (
+                    <h2 style={{ textAlign: 'center' }}>Not Found Card</h2>
+                  ) : (data.map((user) => (
+                    <tr key={user._id} className="category__row">
+                      <td className="category__name">{user.first_name}</td>
+                      <td className="category__description">{user.last_name}</td>
+                      <td className="category__description">{user.username}</td>
+                      <td className="category__actions">
+                        <button
+                          className="category__button category__button--edit"
+                          onClick={() => edit(user._id)}
+                        >
+                          Edit
+                        </button>
+                        <button
+                          className="category__button category__button--delete"
+                          onClick={() => deleteCategory(user._id)}
+                        >
+                          Delete
+                        </button>
+                      </td>
+                    </tr>
+                  )))
+                ) : (
+                  total.length === 0 ? (
+                    <h2 style={{ textAlign: 'center' }}>Not Found Card</h2>
+                  ) : (total.map((user) => (
+                    <tr key={user._id} className="category__row">
+                      <td className="category__name">{user.first_name}</td>
+                      <td className="category__description">{user.last_name}</td>
+                      <td className="category__description">{user.username}</td>
+                      <td className="category__actions">
+                        <button
+                          className="category__button category__button--edit"
+                          onClick={() => edit(user._id)}
+                        >
+                          Edit
+                        </button>
+                        <button
+                          className="category__button category__button--delete"
+                          onClick={() => deleteCategory(user._id)}
+                        >
+                          Delete
+                        </button>
+                      </td>
+                    </tr>
+                  )))
+                )
+              }
             </tbody>
           </table>
         </div>
@@ -304,23 +314,25 @@ const UsersPage = () => {
           </div>
         </>
       )}
-      <div className="category__pagination">
-        <button
-          className="category__pagination-button"
-          disabled={currentPage === 1}
-          onClick={() => setCurrentPage(currentPage - 1)}
-        >
-          Previous
-        </button>
-        <span className="category__pagination-current">{currentPage}</span>
-        <button
-          className="category__pagination-button"
-          disabled={currentPage === totalPages}
-          onClick={() => setCurrentPage(currentPage + 1)}
-        >
-          Next
-        </button>
-      </div>
+      {
+        data.length <= 10 & search === '' ? (<div className="category__pagination">
+          <button
+            className="category__pagination-button"
+            disabled={currentPage === 1}
+            onClick={() => setCurrentPage(currentPage - 1)}
+          >
+            Previous
+          </button>
+          <span className="category__pagination-current">{currentPage}</span>
+          <button
+            className="category__pagination-button"
+            disabled={currentPage === totalPages}
+            onClick={() => setCurrentPage(currentPage + 1)}
+          >
+            Next
+          </button>
+        </div>) : null
+      }
     </section>
   );
 };
