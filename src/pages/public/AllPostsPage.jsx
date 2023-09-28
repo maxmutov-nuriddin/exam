@@ -52,7 +52,7 @@ const AllPostsPage = () => {
       ) : (
         data.map((el, index) => <Card key={index} data={el} />)
       )}
-      {totalPages > 0 && (
+      {totalPages > 1 && (
         <div className="category__pagination">
           <button
             className="category__pagination-button"
