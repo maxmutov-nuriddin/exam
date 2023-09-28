@@ -16,6 +16,7 @@ const UsersPage = () => {
   const [nameError, setNameError] = useState('');
   const [descriptionError, setDescriptionError] = useState('');
   const [usernameError, setUsernameError] = useState('');
+  const [passwordError, setPasswordError] = useState('');
   const [isLoading, setIsLoading] = useState(true);
   const [currentPage, setCurrentPage] = useState(1);
   const [itemsPerPage, setItemsPerPage] = useState()
@@ -89,6 +90,7 @@ const UsersPage = () => {
     setName('');
     setDescription('');
     setUsername('');
+    setPassword('')
   };
 
   const close = () => {
@@ -119,6 +121,7 @@ const UsersPage = () => {
         setName('');
         setDescription('');
         setUsername('');
+        setPassword('')
       } catch (err) {
         if (err.response && err.response.status === 500) {
           if (namesUser.includes(username)) {
@@ -137,6 +140,7 @@ const UsersPage = () => {
     setNameError('');
     setDescriptionError('');
     setUsernameError('');
+    setPasswordError('')
 
     if (name.trim() === '') {
       setNameError('Name is required');
@@ -150,6 +154,10 @@ const UsersPage = () => {
 
     if (username.trim() === '') {
       setUsernameError('Username is required');
+      isValid = false;
+    }
+    if (password.trim() === '') {
+      setPasswordError('Password is required');
       isValid = false;
     }
 
@@ -295,6 +303,7 @@ const UsersPage = () => {
                   value={password}
                   onChange={(e) => setPassword(e.target.value)}
                 />
+                {passwordError && <span className="category__form-error">{passwordError}</span>}
               </div>
               <div className='box-btn'>
                 <button className="category__button category__button--submit" type="submit">
