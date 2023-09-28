@@ -31,12 +31,12 @@ const MyPostsPage = () => {
     setCurrentPage(1);
   };
 
-  const fetchData = async ( search) => {
+  const fetchData = async (search) => {
     setIsLoading(true);
     try {
       const response = await request.get(`post/user?search=${search}&page=${currentPage}&limit=${pageTotal}`);
       setData(response.data.data);
-      setItemsPerPage(data.pagination.total)
+      setItemsPerPage(response.data.pagination.total)
       setIsLoading(false);
     } catch (error) {
       console.log(error);
@@ -165,6 +165,7 @@ const MyPostsPage = () => {
 
 
   const totalPages = Math.ceil(itemsPerPage / pageTotal);
+  // console.log(itemsPerPage);
 
 
   return (

@@ -21,7 +21,7 @@ const CategoriesPage = () => {
 
 
   useEffect(() => {
-    getData( search);
+    getData(search);
   }, [currentPage, search]);
 
   const handleInput = (e) => {
@@ -169,35 +169,40 @@ const CategoriesPage = () => {
               </tr>
             </thead>
             <tbody>
-              {data.map((category) => (
-                <tr key={category._id} className="category__row">
-                  <td className="category__name">{category.name}</td>
-                  <td className="category__description">{category.description}</td>
-                  <td className="category__image">
-                    <img
-                      className="category__image-file"
-                      height={50}
-                      width={50}
-                      src={`${ENDPOINT}upload/${category.photo._id}.${category.photo.name.split(".")[1]}`}
-                      alt={category.name}
-                    />
-                  </td>
-                  <td className="category__actions">
-                    <button
-                      className="category__button category__button--edit"
-                      onClick={() => edit(category._id)}
-                    >
-                      Edit
-                    </button>
-                    <button
-                      className="category__button category__button--delete"
-                      onClick={() => deleteCategory(category._id)}
-                    >
-                      Delete
-                    </button>
-                  </td>
-                </tr>
-              ))}
+              {
+                data.filter((category) => {
+                  const fullName = `${category.name} ${category.description}`;
+                  return fullName.toLowerCase().includes(search.toLowerCase());
+                }).map((category) => (
+                  <tr key={category._id} className="category__row">
+                    <td className="category__name">{category.name}</td>
+                    <td className="category__description">{category.description}</td>
+                    <td className="category__image">
+                      <img
+                        className="category__image-file"
+                        height={50}
+                        width={50}
+                        src={`${ENDPOINT}upload/${category.photo._id}.${category.photo.name.split(".")[1]}`}
+                        alt={category.name}
+                      />
+                    </td>
+                    <td className="category__actions">
+                      <button
+                        className="category__button category__button--edit"
+                        onClick={() => edit(category._id)}
+                      >
+                        Edit
+                      </button>
+                      <button
+                        className="category__button category__button--delete"
+                        onClick={() => deleteCategory(category._id)}
+                      >
+                        Delete
+                      </button>
+                    </td>
+                  </tr>
+                ))
+              }
             </tbody>
           </table>
         </div>

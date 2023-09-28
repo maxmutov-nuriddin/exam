@@ -37,6 +37,7 @@ const UsersPage = () => {
 
   const handleInput = (e) => {
     setSearch(e.target.value);
+    getData(currentPage, e.target.value);
     setCurrentPage(1);
   };
 
@@ -161,27 +162,53 @@ const UsersPage = () => {
               </tr>
             </thead>
             <tbody>
-              {data.map((user) => (
-                <tr key={user._id} className="category__row">
-                  <td className="category__name">{user.first_name}</td>
-                  <td className="category__description">{user.last_name}</td>
-                  <td className="category__description">{user.username}</td>
-                  <td className="category__actions">
-                    <button
-                      className="category__button category__button--edit"
-                      onClick={() => edit(user._id)}
-                    >
-                      Edit
-                    </button>
-                    <button
-                      className="category__button category__button--delete"
-                      onClick={() => deleteCategory(user._id)}
-                    >
-                      Delete
-                    </button>
-                  </td>
-                </tr>
-              ))}
+              {data
+                .filter((user) => {
+                  const fullName = `${user.first_name} ${user.last_name}`;
+                  return fullName.toLowerCase().includes(search.toLowerCase());
+                })
+                .map((user) => (
+                  <tr key={user._id} className="category__row">
+                    <td className="category__name">{user.first_name}</td>
+                    <td className="category__description">{user.last_name}</td>
+                    <td className="category__description">{user.username}</td>
+                    <td className="category__actions">
+                      <button
+                        className="category__button category__button--edit"
+                        onClick={() => edit(user._id)}
+                      >
+                        Edit
+                      </button>
+                      <button
+                        className="category__button category__button--delete"
+                        onClick={() => deleteCategory(user._id)}
+                      >
+                        Delete
+                      </button>
+                    </td>
+                  </tr>
+                ))}
+              {/* {data.map((user) => (
+                      <tr key={user._id} className="category__row">
+                        <td className="category__name">{user.first_name}</td>
+                        <td className="category__description">{user.last_name}</td>
+                        <td className="category__description">{user.username}</td>
+                        <td className="category__actions">
+                          <button
+                            className="category__button category__button--edit"
+                            onClick={() => edit(user._id)}
+                          >
+                            Edit
+                          </button>
+                          <button
+                            className="category__button category__button--delete"
+                            onClick={() => deleteCategory(user._id)}
+                          >
+                            Delete
+                          </button>
+                        </td>
+                      </tr>
+                    ))} */}
             </tbody>
           </table>
         </div>
