@@ -4,18 +4,22 @@ import '../../../App.css';
 
 const UsersPage = () => {
   const [data, setData] = useState([]);
+  const [test, setTest] = useState([]);
   const [showForm, setShowForm] = useState(false);
   const [selected, setSelected] = useState(null);
   const [name, setName] = useState('');
   const [search, setSearch] = useState('');
   const [description, setDescription] = useState('');
   const [username, setUsername] = useState('');
+  const [password, setPassword] = useState('');
   const [nameError, setNameError] = useState('');
   const [descriptionError, setDescriptionError] = useState('');
   const [usernameError, setUsernameError] = useState('');
+  const [passwordError, setPasswordError] = useState('');
   const [isLoading, setIsLoading] = useState(true);
   const [currentPage, setCurrentPage] = useState(1);
   const [itemsPerPage, setItemsPerPage] = useState()
+  const [namesUser, setNamesUser] = useState('')
   const pageTotal = 10
 
   useEffect(() => {
@@ -25,6 +29,8 @@ const UsersPage = () => {
   const getData = async () => {
     try {
       const response = await request.get(`user?page=${currentPage}&limit=${pageTotal}&search=${search}`);
+      const test = await request.get(`/user?limit=${itemsPerPage}`);
+      setTest(test.data.data);
       setItemsPerPage(response.data.pagination.total);
       const { data } = response.data;
       setData(data);
@@ -41,6 +47,12 @@ const UsersPage = () => {
     setCurrentPage(1);
   };
 
+
+  useEffect(() => {
+    const usernames = test.map(item => item.username);
+    setNamesUser(usernames);
+  }, [data]);
+
   const edit = async (id) => {
     setShowForm(true);
     setSelected(id);
@@ -50,8 +62,9 @@ const UsersPage = () => {
       setName(data?.first_name || '');
       setDescription(data?.last_name || '');
       setUsername(data?.username || '');
+      setPassword(data?.password || '');
     } catch (err) {
-      console.log(err);
+      alert(err.message);
     }
   };
 
@@ -75,6 +88,7 @@ const UsersPage = () => {
     setName('');
     setDescription('');
     setUsername('');
+    setPassword('')
   };
 
   const close = () => {
@@ -90,8 +104,9 @@ const UsersPage = () => {
           first_name: name,
           last_name: description,
           username: username,
+          password: password,
         };
-
+        console.log(formData);
         if (selected === null) {
           await request.post('user', formData);
           setIsLoading(false);
@@ -104,8 +119,15 @@ const UsersPage = () => {
         setName('');
         setDescription('');
         setUsername('');
+        setPassword('')
       } catch (err) {
-        console.log(err);
+        if (err.response && err.response.status === 500) {
+          if (namesUser.includes(username)) {
+            alert('This username is already taken');
+          }
+        } else {
+          alert(err.message);
+        }
       }
     }
   };
@@ -116,6 +138,7 @@ const UsersPage = () => {
     setNameError('');
     setDescriptionError('');
     setUsernameError('');
+    setPasswordError('')
 
     if (name.trim() === '') {
       setNameError('Name is required');
@@ -131,6 +154,10 @@ const UsersPage = () => {
       setUsernameError('Username is required');
       isValid = false;
     }
+    if (password.trim() === '') {
+      setPasswordError('Password is required');
+      isValid = false;
+    }
 
     return isValid;
   };
@@ -140,6 +167,13 @@ const UsersPage = () => {
   }
 
   const totalPages = Math.ceil(itemsPerPage / pageTotal);
+
+
+  const total = data
+    .filter((total) => {
+      const fullName = `${total.name} ${total.description}`;
+      return fullName.toLowerCase().includes(search.toLowerCase());
+    })
 
   return (
     <section className="category">
@@ -162,32 +196,29 @@ const UsersPage = () => {
               </tr>
             </thead>
             <tbody>
-              {data
-                .filter((user) => {
-                  const fullName = `${user.first_name} ${user.last_name}`;
-                  return fullName.toLowerCase().includes(search.toLowerCase());
-                })
-                .map((user) => (
-                  <tr key={user._id} className="category__row">
-                    <td className="category__name">{user.first_name}</td>
-                    <td className="category__description">{user.last_name}</td>
-                    <td className="category__description">{user.username}</td>
-                    <td className="category__actions">
-                      <button
-                        className="category__button category__button--edit"
-                        onClick={() => edit(user._id)}
-                      >
-                        Edit
-                      </button>
-                      <button
-                        className="category__button category__button--delete"
-                        onClick={() => deleteCategory(user._id)}
-                      >
-                        Delete
-                      </button>
-                    </td>
-                  </tr>
-                ))}
+              {total.length === 0 ? (
+                <h2 style={{ textAlign: 'center' }}>Not Found Card</h2>
+              ) : (total.map((user) => (
+                <tr key={user._id} className="category__row">
+                  <td className="category__name">{user.first_name}</td>
+                  <td className="category__description">{user.last_name}</td>
+                  <td className="category__description">{user.username}</td>
+                  <td className="category__actions">
+                    <button
+                      className="category__button category__button--edit"
+                      onClick={() => edit(user._id)}
+                    >
+                      Edit
+                    </button>
+                    <button
+                      className="category__button category__button--delete"
+                      onClick={() => deleteCategory(user._id)}
+                    >
+                      Delete
+                    </button>
+                  </td>
+                </tr>
+              )))}
               {/* {data.map((user) => (
                       <tr key={user._id} className="category__row">
                         <td className="category__name">{user.first_name}</td>
@@ -214,51 +245,64 @@ const UsersPage = () => {
         </div>
       </div>
       {showForm && (
-        <div className="category__form-wrapper">
-          <form onSubmit={handleFormSubmit} className="category__form">
-            <div className="category__form-group">
-              <label htmlFor="first_name" className="category__form-label">First Name:</label>
-              <input
-                className="category__form-input category__form-input--first-name"
-                type="text"
-                id="first_name"
-                value={name}
-                onChange={(e) => setName(e.target.value)}
-              />
-              {nameError && <span className="category__form-error">{nameError}</span>}
-            </div>
-            <div className="category__form-group">
-              <label htmlFor="last_name" className="category__form-label">Last Name:</label>
-              <input
-                className="category__form-input category__form-input--last-name"
-                type="text"
-                id="last_name"
-                value={description}
-                onChange={(e) => setDescription(e.target.value)}
-              />
-              {descriptionError && <span className="category__form-error">{descriptionError}</span>}
-            </div>
-            <div className="category__form-group">
-              <label htmlFor="username" className="category__form-label">User Name:</label>
-              <input
-                className="category__form-input category__form-input--username"
-                type="text"
-                id="username"
-                value={username}
-                onChange={(e) => setUsername(e.target.value)}
-              />
-              {usernameError && <span className="category__form-error">{usernameError}</span>}
-            </div>
-            <div className='box-btn'>
-              <button className="category__button category__button--submit" type="submit">
-                Submit
-              </button>
-              <button className="category__button category__button--cancel" onClick={close} type="button">
-                Close
-              </button>
-            </div>
-          </form>
-        </div>
+        <>
+          <div className="category__form-wrapper">
+            <form onSubmit={handleFormSubmit} className="category__form">
+              <div className="category__form-group">
+                <label htmlFor="first_name" className="category__form-label">First Name:</label>
+                <input
+                  className="category__form-input category__form-input--first-name"
+                  type="text"
+                  id="first_name"
+                  value={name}
+                  onChange={(e) => setName(e.target.value)}
+                />
+                {nameError && <span className="category__form-error">{nameError}</span>}
+              </div>
+              <div className="category__form-group">
+                <label htmlFor="last_name" className="category__form-label">Last Name:</label>
+                <input
+                  className="category__form-input category__form-input--last-name"
+                  type="text"
+                  id="last_name"
+                  value={description}
+                  onChange={(e) => setDescription(e.target.value)}
+                />
+                {descriptionError && <span className="category__form-error">{descriptionError}</span>}
+              </div>
+              <div className="category__form-group">
+                <label htmlFor="username" className="category__form-label">User Name:</label>
+                <input
+                  className="category__form-input category__form-input--username"
+                  type="text"
+                  id="username"
+                  value={username}
+                  onChange={(e) => setUsername(e.target.value)}
+                />
+                {usernameError && <span className="category__form-error">{usernameError}</span>}
+              </div>
+              <div className="category__form-group">
+                <label htmlFor="username" className="category__form-label">Password for user:</label>
+                <input
+                  className="category__form-input category__form-input--username"
+                  type="text"
+                  id="username"
+                  value={password}
+                  onChange={(e) => setPassword(e.target.value)}
+                />
+                {passwordError && <span className="category__form-error">{passwordError}</span>}
+              </div>
+              <div className='box-btn'>
+                <button className="category__button category__button--submit" type="submit">
+                  Submit
+                </button>
+                <button className="category__button category__button--cancel" onClick={close} type="button">
+                  Close
+                </button>
+              </div>
+            </form>
+          </div>
+        </>
       )}
       <div className="category__pagination">
         <button

@@ -34,7 +34,7 @@ const MyPostsPage = () => {
   const fetchData = async (search) => {
     setIsLoading(true);
     try {
-      const response = await request.get(`post/user?search=${search}&page=${currentPage}&limit=${pageTotal}`);
+      const response = await request.get(`post/user?page=${currentPage}&limit=${pageTotal}&search=${search}`);
       setData(response.data.data);
       setItemsPerPage(response.data.pagination.total)
       setIsLoading(false);
@@ -167,6 +167,11 @@ const MyPostsPage = () => {
   const totalPages = Math.ceil(itemsPerPage / pageTotal);
   // console.log(itemsPerPage);
 
+  const total = data
+    .filter((total) => {
+      const fullName = `${total.name} ${total.description}`;
+      return fullName.toLowerCase().includes(search.toLowerCase());
+    })
 
   return (
     <section>
@@ -185,10 +190,10 @@ const MyPostsPage = () => {
         </div>
         <hr />
       </div>
-      {data.length === 0 ? (
+      {total.length === 0 ? (
         <h2 style={{ textAlign: 'center' }}>Not Found Card</h2>
       ) : (
-        data.map((el, index) => <Card key={index} data={el} my={my} edit={edit} deleteCategory={deleteCategory} />)
+        total.map((el, index) => <Card key={index} data={el} my={my} edit={edit} deleteCategory={deleteCategory} />)
       )}
 
       {showForm && (

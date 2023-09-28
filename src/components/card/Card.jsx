@@ -3,7 +3,6 @@ import { ENDPOINT } from "../../constants";
 
 /* eslint-disable react/prop-types */
 const Card = ({ data, my, edit, deleteCategory }) => {
-  console.log(data);
   return (
     <div className="container">
       <div className="card">

@@ -119,8 +119,8 @@ const CategoriesPage = () => {
           name,
           description,
         };
+        console.log(formData);
         let categoryData = { ...formData, photo: photo._id };
-        console.log(categoryData);
         if (selected === null) {
           await request.post("category", categoryData);
           setIsLoading(false);
