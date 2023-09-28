@@ -11,6 +11,7 @@ const HomePage = () => {
   const [info, setInfo] = useState([]);
   const [category, setCategory] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
+  const [slidesPerView, setSlidesPerView] = useState(3);
 
   const fetchData = async () => {
     try {
@@ -27,8 +28,20 @@ const HomePage = () => {
     }
   };
 
+  const handleResize = () => {
+    const windowWidth = window.innerWidth;
+    if (windowWidth < 735) {
+      setSlidesPerView(1);
+    } else if (windowWidth < 1100) {
+      setSlidesPerView(2);
+    } else {
+      setSlidesPerView(3);
+    }
+  };
+
   useEffect(() => {
     fetchData();
+    handleResize()
   }, []);
 
   if (isLoading) {
@@ -40,8 +53,8 @@ const HomePage = () => {
   return (
     <>
       <Hero data={data} />
-      <BlogPosts info={info} />
-      <Category category={category}/>
+      <BlogPosts info={info} slidesPerView={slidesPerView} />
+      <Category category={category} slidesPerView={slidesPerView}/>
     </>
   );
 };
