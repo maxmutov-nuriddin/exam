@@ -70,6 +70,19 @@ const UsersPage = () => {
     }
   };
 
+  const editUser = async (id) => {
+    try {
+      const response = await request.get(`user/${id}`);
+      const currentUserRole = response.data.data.role;
+      const newRole = currentUserRole === 'user' ? 'admin' : 'user';
+      await request.put(`user/${id}`, { role: newRole });
+      console.log(await request.put(`user/${id}`, { role: newRole }));
+      setIsLoading(false);
+    } catch (err) {
+      alert(err.message);
+    }
+  };
+
   const deleteCategory = async (id) => {
     const confirmDelete = window.confirm('Are you sure you want to delete?');
     if (confirmDelete) {
@@ -171,7 +184,7 @@ const UsersPage = () => {
 
 
   const total = test.filter((total) => {
-    const fullName = `${total.first_name} ${total.last_name} ${total.username}`;
+    const fullName = `${total.first_name} ${total.last_name} ${total.username} ${total.role}`;
     return fullName.toLowerCase().includes(search.toLowerCase());
   })
 
@@ -222,6 +235,12 @@ const UsersPage = () => {
                         >
                           Delete
                         </button>
+                        <button
+                          className="category__button category__button--edit"
+                          onClick={() => editUser(user._id)}
+                        >
+                          {user.role === 'admin' ? 'ADMIN' : 'User'}
+                        </button>
                       </td>
                     </tr>
                   )))
@@ -246,6 +265,12 @@ const UsersPage = () => {
                         onClick={() => deleteCategory(user._id)}
                       >
                         Delete
+                      </button>
+                      <button
+                        className="category__button category__button--edit"
+                        onClick={() => editUser(user._id)}
+                      >
+                        {user.role === 'admin' ? 'ADMIN' : 'User'}
                       </button>
                     </td>
                   </tr>
