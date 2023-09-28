@@ -25,7 +25,7 @@ const UsersPage = () => {
 
   useEffect(() => {
     getData();
-  }, [search, currentPage]);
+  }, []);
 
   const getData = async () => {
     try {
