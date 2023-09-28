@@ -58,6 +58,7 @@ const UsersPage = () => {
     setSelected(id);
     try {
       const response = await request.get(`user/${id}`);
+      setIsLoading(false);
       const { data: { data } } = response;
       setName(data?.first_name || '');
       setDescription(data?.last_name || '');
@@ -162,21 +163,20 @@ const UsersPage = () => {
     return isValid;
   };
 
-  if (isLoading) {
-    return <p>Loading...</p>;
-  }
+
 
   const totalPages = Math.ceil(itemsPerPage / pageTotal);
 
 
-  console.log(data.length);
 
-  const total = test
-    .filter((total) => {
-      console.log(total);
-      const fullName = `${total.first_name} ${total.last_name} ${total.username}`;
-      return fullName.toLowerCase().includes(search.toLowerCase());
-    })
+  const total = test.filter((total) => {
+    const fullName = `${total.first_name} ${total.last_name} ${total.username}`;
+    return fullName.toLowerCase().includes(search.toLowerCase());
+  })
+
+  if (isLoading) {
+    return <p>Loading...</p>;
+  }
 
   return (
     <section className="category">
@@ -224,30 +224,32 @@ const UsersPage = () => {
                       </td>
                     </tr>
                   )))
-                ) : (
-                  total.length === 0 ? (
-                    <h2 style={{ textAlign: 'center' }}>Not Found Card</h2>
-                  ) : (total.map((user) => (
-                    <tr key={user._id} className="category__row">
-                      <td className="category__name">{user.first_name}</td>
-                      <td className="category__description">{user.last_name}</td>
-                      <td className="category__description">{user.username}</td>
-                      <td className="category__actions">
-                        <button
-                          className="category__button category__button--edit"
-                          onClick={() => edit(user._id)}
-                        >
-                          Edit
-                        </button>
-                        <button
-                          className="category__button category__button--delete"
-                          onClick={() => deleteCategory(user._id)}
-                        >
-                          Delete
-                        </button>
-                      </td>
-                    </tr>
-                  )))
+                ) : (isLoading ? (
+                  <h2 style={{ textAlign: 'center' }}>Loading...</h2>
+                ) : total.length === 0 ? (
+                  <h2 style={{ textAlign: 'center' }}>Not Found Card</h2>
+                ) : ((total.map((user) => (
+                  <tr key={user._id} className="category__row">
+                    <td className="category__name">{user.first_name}</td>
+                    <td className="category__description">{user.last_name}</td>
+                    <td className="category__description">{user.username}</td>
+                    <td className="category__actions">
+                      <button
+                        className="category__button category__button--edit"
+                        onClick={() => edit(user._id)}
+                      >
+                        Edit
+                      </button>
+                      <button
+                        className="category__button category__button--delete"
+                        onClick={() => deleteCategory(user._id)}
+                      >
+                        Delete
+                      </button>
+                    </td>
+                  </tr>
+                )))
+                )
                 )
               }
             </tbody>
