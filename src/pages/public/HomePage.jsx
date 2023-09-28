@@ -48,7 +48,7 @@ const HomePage = () => {
     return <p>Loading...</p>;
   }
 
-  console.log(data);
+  // console.log(data);
 
   return (
     <>
