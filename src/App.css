@@ -296,7 +296,7 @@
 
 .blog__image-photo {
   max-width: 100%;
-  height:auto;
+  height: auto;
 }
 
 .blog__avatar {
@@ -540,8 +540,13 @@
     flex-direction: column;
   }
 
-  .card__image-photo {
+  .card__image {
     width: 100%;
+  }
+
+  .card__image-photo {
+    max-width: 100%;
+    height: auto;
   }
 }
 
