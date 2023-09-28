@@ -317,7 +317,7 @@ const UsersPage = () => {
         </>
       )}
       {
-        data.length <= 10 & search === '' ? (<div className="category__pagination">
+        data.length <= pageTotal & search === '' ? (<div className="category__pagination">
           <button
             className="category__pagination-button"
             disabled={currentPage === 1}

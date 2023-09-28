@@ -264,27 +264,25 @@ const CategoriesPage = () => {
           </form>
         </div>
       )}
-      {
-        pageTotal > itemsPerPage ? null : (
-          <div className="category__pagination">
-            <button
-              className="category__pagination-button"
-              disabled={currentPage === 1}
-              onClick={() => setCurrentPage(currentPage - 1)}
-            >
-              Previous
-            </button>
-            <span className="category__pagination-current">{currentPage}</span>
-            <button
-              className="category__pagination-button"
-              disabled={currentPage === totalPages}
-              onClick={() => setCurrentPage(currentPage + 1)}
-            >
-              Next
-            </button>
-          </div>
-        )
-      }
+      {totalPages > 1 && (
+        <div className="category__pagination">
+          <button
+            className="category__pagination-button"
+            disabled={currentPage === 1}
+            onClick={() => setCurrentPage(currentPage - 1)}
+          >
+            Previous
+          </button>
+          <span className="category__pagination-current">{currentPage}</span>
+          <button
+            className="category__pagination-button"
+            disabled={currentPage === totalPages}
+            onClick={() => setCurrentPage(currentPage + 1)}
+          >
+            Next
+          </button>
+        </div>
+      )}
     </section>
   );
 };
