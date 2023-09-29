@@ -28,8 +28,8 @@ const UsersPage = () => {
   }, []);
 
   const getData = async () => {
+    setIsLoading(true);
     try {
-      setIsLoading(true);
       const response = await request.get(`user?page=${currentPage}&limit=${pageTotal}&search=${search}`);
       const test = await request.get(`/user?limit=${itemsPerPage}`);
       setTest(test.data.data);
@@ -73,8 +73,8 @@ const UsersPage = () => {
   };
 
   const editUser = async (id) => {
+    setIsLoading(true);
     try {
-      setIsLoading(true);
       const response = await request.get(`user/${id}`);
       const currentUserRole = response.data.data.role;
       const newRole = currentUserRole === 'user' ? 'admin' : 'user';

@@ -152,18 +152,6 @@ const MyPostsPage = () => {
     }
   };
 
-  useEffect(() => {
-    if (isLoading) {
-      setShowModal(true);
-    } else {
-      setTimeout(() => {
-        setShowModal(false);
-      }, 500);
-    }
-  }, [isLoading]);
-
-
-
   const totalPages = Math.ceil(itemsPerPage / pageTotal);
   // console.log(itemsPerPage);
 
@@ -172,6 +160,26 @@ const MyPostsPage = () => {
       const fullName = `${total.name} ${total.description}`;
       return fullName.toLowerCase().includes(search.toLowerCase());
     })
+
+  useEffect(() => {
+    if (search !== "") {
+      if (isLoading) {
+        setShowModal(true);
+      } else {
+        const timeoutId = setTimeout(() => {
+          setShowModal(false);
+        }, 500);
+
+        return () => clearTimeout(timeoutId);
+      }
+    }
+  }, [search, isLoading]);
+
+  if (search === "") {
+    if (isLoading) {
+      return <p>Loading...</p>;
+    }
+  }
 
   return (
     <section>
