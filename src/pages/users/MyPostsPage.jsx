@@ -209,7 +209,7 @@ const MyPostsPage = () => {
           <form className="category__form" onSubmit={handleFormSubmit}>
             <h3 className="category__form-title">{selected === null ? 'Add Category' : 'Edit Category'}</h3>
             <div className="category__form-group">
-              <label className="category__form-label" htmlFor="title">Title</label>
+              <label className="category__form-label" htmlFor="title">Category</label>
               <input
                 className="category__form-input"
                 type="text"
@@ -220,7 +220,7 @@ const MyPostsPage = () => {
               {errors.title && <span className="category__form-error">{errors.title}</span>}
             </div>
             <div className="category__form-group">
-              <label className="category__form-label" htmlFor="name">Name</label>
+              <label className="category__form-label" htmlFor="name">Title</label>
               <input
                 className="category__form-input"
                 type="text"
