@@ -29,6 +29,7 @@ const UsersPage = () => {
 
   const getData = async () => {
     try {
+      setIsLoading(true);
       const response = await request.get(`user?page=${currentPage}&limit=${pageTotal}&search=${search}`);
       const test = await request.get(`/user?limit=${itemsPerPage}`);
       setTest(test.data.data);
@@ -65,6 +66,7 @@ const UsersPage = () => {
       setDescription(data?.last_name || '');
       setUsername(data?.username || '');
       setPassword(data?.password || '');
+      setIsLoading(false);
     } catch (err) {
       alert(err.message);
     }
@@ -72,13 +74,16 @@ const UsersPage = () => {
 
   const editUser = async (id) => {
     try {
+      setIsLoading(true);
       const response = await request.get(`user/${id}`);
       const currentUserRole = response.data.data.role;
       const newRole = currentUserRole === 'user' ? 'admin' : 'user';
       await request.put(`user/${id}`, { role: newRole });
       console.log(await request.put(`user/${id}`, { role: newRole }));
+      getData()
       setIsLoading(false);
     } catch (err) {
+      setIsLoading(false);
       alert(err.message);
     }
   };
@@ -88,8 +93,8 @@ const UsersPage = () => {
     if (confirmDelete) {
       try {
         await request.delete(`user/${id}`);
-        setIsLoading(false);
         getData(search, currentPage);
+        setIsLoading(false);
       } catch (err) {
         console.log(err);
         setIsLoading(false);
@@ -104,6 +109,7 @@ const UsersPage = () => {
     setDescription('');
     setUsername('');
     setPassword('')
+    setIsLoading(false);
   };
 
   const close = () => {
@@ -124,10 +130,8 @@ const UsersPage = () => {
         console.log(formData);
         if (selected === null) {
           await request.post('user', formData);
-          setIsLoading(false);
         } else {
           await request.put(`user/${selected}`, formData);
-          setIsLoading(false);
         }
         getData();
         setShowForm(false);
@@ -135,6 +139,7 @@ const UsersPage = () => {
         setDescription('');
         setUsername('');
         setPassword('')
+        setIsLoading(false);
       } catch (err) {
         if (err.response && err.response.status === 500) {
           if (namesUser.includes(username)) {
@@ -143,6 +148,7 @@ const UsersPage = () => {
         } else {
           alert(err.message);
         }
+        setIsLoading(false);
       }
     }
   };
