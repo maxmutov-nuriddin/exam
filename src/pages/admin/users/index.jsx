@@ -18,6 +18,7 @@ const UsersPage = () => {
   const [usernameError, setUsernameError] = useState('');
   const [passwordError, setPasswordError] = useState('');
   const [isLoading, setIsLoading] = useState(true);
+  const [showModal, setShowModal] = useState(false);
   const [currentPage, setCurrentPage] = useState(1);
   const [itemsPerPage, setItemsPerPage] = useState()
   const [namesUser, setNamesUser] = useState('')
@@ -194,12 +195,35 @@ const UsersPage = () => {
     return fullName.toLowerCase().includes(search.toLowerCase());
   })
 
-  if (isLoading) {
-    return <p>Loading...</p>;
+  useEffect(() => {
+    if (search !== "") {
+      if (isLoading) {
+        setShowModal(true);
+      } else {
+        const timeoutId = setTimeout(() => {
+          setShowModal(false);
+        }, 500);
+
+        return () => clearTimeout(timeoutId);
+      }
+    }
+  }, [search, isLoading]);
+
+  if (search === "") {
+    if (isLoading) {
+      return <p>Loading...</p>;
+    }
   }
 
   return (
     <section className="category">
+      {showModal && (
+        <div className="modal">
+          <div className="modal-content">
+            <p>Loading...</p>
+          </div>
+        </div>
+      )}
       <div className="container">
         <input className="search__input" onChange={handleInput} type="text" placeholder="Searching ..." />
         <div className="category__header">
