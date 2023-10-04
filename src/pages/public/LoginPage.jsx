@@ -59,6 +59,7 @@ const LoginPage = () => {
           username: '',
           password: '',
         });
+        location.reload()
       } catch (error) {
         toast.error("Error");
       }
