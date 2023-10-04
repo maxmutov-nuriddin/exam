@@ -1,8 +1,10 @@
 import { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 
 import request from '../../server/Server';
 
 const RegisterPage = () => {
+  const navigate = useNavigate();
   const [formData, setFormData] = useState({
     first_name: '',
     last_name: '',
@@ -51,6 +53,7 @@ const RegisterPage = () => {
     if (validateForm()) {
       try {
         let res = await request.post('/auth/register', formData);
+        navigate('/login')
         console.log(res);
       } catch (error) {
         console.log(error);
