@@ -13,6 +13,7 @@ const Header = () => {
     setIsAuthenticated(false);
     Cookies.remove(TOKEN);
     navigate("/");
+    location.reload()
   };
 
   const [burger, setBurger] = useState(false)

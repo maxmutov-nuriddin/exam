@@ -156,7 +156,7 @@ const AccountPage = () => {
             name="email"
             className="register__input"
             placeholder="Email"
-            value={formData.email.split('@')[0]}
+            value={formData == "" ? formData.email.split('@')[0] : formData.email}
             onChange={handleInputChange}
           />
           <input
@@ -164,7 +164,7 @@ const AccountPage = () => {
             name="birthday"
             className="register__input"
             placeholder="Birthday"
-            value={formData.birthday.split("T")[0]}
+            value={formData == "" ? formData.birthday.split("T")[0] : formData.birthday}
             onChange={handleInputChange}
           />
 
